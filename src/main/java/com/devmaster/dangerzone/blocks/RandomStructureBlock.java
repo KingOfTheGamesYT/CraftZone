@@ -2,20 +2,18 @@ package com.devmaster.dangerzone.blocks;
 
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
-import net.minecraft.tileentity.CommandBlockTileEntity;
-import net.minecraft.tileentity.StructureBlockTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
@@ -269,5 +267,10 @@ public class RandomStructureBlock extends Block {
         if (!dropsOriginal.isEmpty())
             return dropsOriginal;
         return Collections.singletonList(new ItemStack(this, 1));
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(new StringTextComponent(   "\u00A7b" + "Spawns any structure in the game" + "\u00A7b"));
     }
 }

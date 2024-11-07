@@ -1,6 +1,5 @@
 package com.devmaster.dangerzone.blocks;
 
-
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WebBlock;
 import net.minecraft.block.material.Material;

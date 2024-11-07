@@ -38,7 +38,6 @@ public class TermiteTrollOre extends OreBlock {
         termite.spawnExplosionParticle();
         }
 
-
     public void spawnAdditionalDrops(BlockState state, ServerWorld worldIn, BlockPos pos, ItemStack stack){
         super.spawnAdditionalDrops(state, worldIn, pos, stack);
         if (worldIn.getGameRules().getBoolean(GameRules.DO_TILE_DROPS) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) == 0) {

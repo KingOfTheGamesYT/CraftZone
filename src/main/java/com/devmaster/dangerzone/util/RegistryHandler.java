@@ -6,8 +6,11 @@ import com.devmaster.dangerzone.blocks.*;
 import com.devmaster.dangerzone.items.*;
 import com.devmaster.dangerzone.items.EmeraldPickaxe;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.*;
 import net.minecraft.item.*;
 import net.minecraft.util.RegistryKey;
@@ -16,12 +19,15 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.ToolType;
+import net.minecraftforge.common.util.ForgeSoundType;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 public class RegistryHandler {
@@ -29,6 +35,7 @@ public class RegistryHandler {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, DangerZone.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, DangerZone.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, DangerZone.MOD_ID);
+    protected static Random RANDOM = new Random();
 
     public static void init() {
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -73,76 +80,66 @@ public class RegistryHandler {
     public static final RegistryObject<TitaniumLeggings> TITANIUM_LEGGINGS = ITEMS.register("titanium_leggings", TitaniumLeggings::new);
 
     //Blocks
-    public static final RegistryObject<Block> ABYSSAL_ORE_BLOCK = BLOCKS.register("abyssal_ore_block", AbyssalOreBlock::new);
+    public static final RegistryObject<Block> ABYSSAL_ORE_BLOCK = registerNormalBlock("abyssal_ore_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,10F).harvestLevel(0).setRequiresTool().harvestTool(ToolType.PICKAXE).sound(SoundType.STONE), 0).addInfo("\u00A75" + "This is everywhere" + "\u00A75"));
     public static final RegistryObject<Block> ABYSSAL_ORE_VERTICAL_SLAB = conditionallyRegisterBlock("abyssal_ore_vertical_slab", () -> new VerticalSlabBlock(Block.Properties.from(Blocks.STONE_SLAB)), () -> isLoaded("quark"));
-    public static final RegistryObject<Block> ADAMANTINE_BLOCK = BLOCKS.register("adamantine_block", AdamantineBlock::new);
-    public static final RegistryObject<Block> ALUMINIUM_BLOCK = BLOCKS.register("aluminium_block", AluminiumBlock::new);
-    public static final RegistryObject<Block> ALUMINIUM_ORE_BLOCK = BLOCKS.register("aluminium_ore_block", AluminiumOreBlock::new);
-    public static final RegistryObject<Block> APPLE_BLOCK = BLOCKS.register("apple_block", AppleBlock::new);
-    public static final RegistryObject<Block> APPLE_LEAVES = BLOCKS.register("apple_leaves", AppleLeaves::new);
-    public static final RegistryObject<Block> APPLE_LOG = BLOCKS.register("apple_log", AppleLog::new);
-    public static final RegistryObject<Block> BLOODSTONE_BLOCK = BLOCKS.register("bloodstone_block", BloodStoneBlock::new);
-    public static final RegistryObject<Block> BROWN_BLOCK = BLOCKS.register("brown_block", BrownBlock::new);
-    public static final RegistryObject<Block> CATS_EYE_BLOCK = BLOCKS.register("cats_eye_block", CatsEyeBlock::new);
-    public static final RegistryObject<Block> CATS_EYE_ORE = BLOCKS.register("cats_eye_ore", CatsEyeOre::new);
-    public static final RegistryObject<Block> COARSE_AMETHYST_BLOCK = BLOCKS.register("coarse_amethyst_block", CoarseAmethystBlock::new);
-    public static final RegistryObject<Block> COARSE_AMETHYST_ORE_BLOCK = BLOCKS.register("coarse_amethyst_ore_block", CoarseAmethystOreBlock::new);
-    public static final RegistryObject<Block> COMPRESSED_POPPY_BLOCK = BLOCKS.register("compressed_poppy_block", CompressedPoppyBlock::new);
-    public static final RegistryObject<Block> CRYSTAL_GRASS = BLOCKS.register("crystal_grass", CrystalGrass::new);
-    public static final RegistryObject<Block> DARK_BROWN_BLOCK = BLOCKS.register("dark_brown_block", DarkBrownBlock::new);
-    public static final RegistryObject<Block> DARK_ORANGE_BLOCK = BLOCKS.register("dark_orange_block", DarkOrangeBlock::new);
-    public static final RegistryObject<Block> DARK_RED_BLOCK = BLOCKS.register("dark_red_block", DarkRedBlock::new);
-    public static final RegistryObject<Block> HEART_BLOCK = BLOCKS.register("heart_block", HeartBlock::new);
-    public static final RegistryObject<Block> KYANITE = BLOCKS.register("kyanite", Kyanite::new);
-    public static final RegistryObject<Block> LEATHER_BLOCK = BLOCKS.register("leather_block", LeatherBlock::new);
-    public static final RegistryObject<Block> ORANGE_BLOCK = BLOCKS.register("orange_block", OrangeBlock::new);
-    public static final RegistryObject<Block> PLAY_BUTTON_ORE_BLOCK = BLOCKS.register("play_button_ore_block", PlayButtonOreBlock::new);
-    public static final RegistryObject<Block> RED_BLOCK = BLOCKS.register("red_block", RedBlock::new);
-    public static final RegistryObject<Block> RANDOM_STRUCTURE_BLOCK = BLOCKS.register("random_structure_spawner", RandomStructureBlock::new);
-    public static final RegistryObject<Block> SALT_ORE_BLOCK = BLOCKS.register("salt_ore_block", SaltOreBlock::new);
-    public static final RegistryObject<Block> SAPPHIRE_BLOCK = BLOCKS.register("sapphire_block", SapphireBlock::new);
-    public static final RegistryObject<Block> SAPPHIRE_ORE_BLOCK = BLOCKS.register("sapphire_ore_block", SapphireOreBlock::new);
-    public static final RegistryObject<Block> STICKY_BLOCK = BLOCKS.register("sticky_block", StickyBlock::new);
-    public static final RegistryObject<Block> TERMITE_TROLL_ORE = BLOCKS.register("termite_troll_ore_block", TermiteTrollOre::new);
-    public static final RegistryObject<Block> TITANIUM_BLOCK = BLOCKS.register("titanium_block", TitaniumBlock::new);
-    public static final RegistryObject<Block> TITANIUM_ORE_BLOCK = BLOCKS.register("titanium_ore_block", TitaniumOreBlock::new);
-    public static final RegistryObject<Block> URANIUM_BLOCK = BLOCKS.register("uranium_block", UraniumBlock::new);
+    public static final RegistryObject<Block> ADAMANTINE_BLOCK = registerNormalBlock("adamantine_block", () -> new ABlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance( 5F,10F).harvestLevel(4).setRequiresTool().harvestTool(ToolType.PICKAXE).sound(SoundType.METAL), 0).addInfo("\u00A74" + "Wolverine " + "\u00A74"));
+    public static final RegistryObject<Block> ALUMINIUM_BLOCK = registerNormalBlock("aluminium_block", () -> new ABlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance( 4F,3F).setLightLevel(state -> 6).harvestLevel(0).harvestTool(ToolType.PICKAXE).sound(SoundType.METAL), 0).addInfo("\u00A7f" + "Aluminium blocks are pretty lightweight!" + "\u00A7f"));
+    public static final RegistryObject<Block> ALUMINIUM_ORE_BLOCK = registerWIPBlock("aluminium_ore_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 500F,20F).harvestLevel(35).setRequiresTool().harvestTool(ToolType.PICKAXE).sound(SoundType.STONE), 0).addInfo("\u00A7f" + "Worse than Iron but does the trick!" + "\u00A7f"));
+    public static final RegistryObject<Block> APPLE_BLOCK =registerNormalBlock("apple_block", () -> new ABlock(AbstractBlock.Properties.create(Material.EARTH).hardnessAndResistance( 1F,1F).harvestLevel(1).sound(SoundType.PLANT), 0).addInfo("\u00A7c" + "so red, so wonderful" + "\u00A7c"));
+    public static final RegistryObject<Block> APPLE_LEAVES = registerWIPBlock("apple_leaves", AppleLeaves::new);
+    public static final RegistryObject<Block> APPLE_LOG = registerWIPBlock("apple_log", () -> new ABlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance( 2F,2F).harvestLevel(0).harvestTool(ToolType.AXE).sound(SoundType.WOOD), 0).addInfo("\u00A76" + "The log doesn't give apples you fool" + "\u00A76"));
+    public static final RegistryObject<Block> BLOODSTONE_BLOCK = registerWIPBlock("bloodstone_block", () -> new ABlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance( 4F,3F).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool().sound(SoundType.METAL), 0).addInfo("\u00A74" + "for when you have to much bloodstone" + "\u00A74"));
+    public static final RegistryObject<Block> BROWN_BLOCK =registerNormalBlock("brown_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 1F,1F).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool().sound(SoundType.STONE), 0).addInfo("\u00A76" + "A brown solid to build with" + "\u00A76"));
+    public static final RegistryObject<Block> CATS_EYE_BLOCK = registerNormalBlock("cats_eye_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 8.5F,12F).harvestLevel(3).harvestTool(ToolType.PICKAXE).setRequiresTool().sound(SoundType.METAL).setLightLevel(state -> 5), 0).addInfo("\u00A76" + "A block of eyes" + "\u00A76"));
+    public static final RegistryObject<Block> CATS_EYE_ORE = registerNormalBlock("cats_eye_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 4.0F,3.25F).harvestLevel(4).harvestTool(ToolType.PICKAXE).setRequiresTool().sound(SoundType.STONE), 2 + RANDOM.nextInt(8)).addInfo("\u00A76" + "It meows" + "\u00A76"));
+    public static final RegistryObject<Block> COARSE_AMETHYST_BLOCK = registerNormalBlock("coarse_amethyst_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 4.0F,12.0F).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool().setLightLevel(state -> 4).sound(SoundType.METAL), 0).addInfo("\u00A75" + "Coarse Amethyst blocks are seriously purple!" + "\u00A75"));
+    public static final RegistryObject<Block> COARSE_AMETHYST_ORE_BLOCK = registerNormalBlock("coarse_amethyst_ore_block", CoarseAmethystOreBlock::new);
+    public static final RegistryObject<Block> COMPRESSED_POPPY_BLOCK = registerNormalBlock("compressed_poppy_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 0.5F,1.0F).harvestLevel(0).harvestTool(ToolType.PICKAXE).sound(SoundType.GROUND), 0).addInfo("\u00A74" + "A wonderful way to store all those poppies" + "\u00A74"));
+    public static final RegistryObject<Block> CRYSTAL_GRASS = registerNormalBlock("crystal_grass", CrystalGrass::new);
+    public static final RegistryObject<Block> DARK_BROWN_BLOCK = registerNormalBlock("dark_brown_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 1.0F,1.0F).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool().sound(SoundType.STONE), 0).addInfo("\u00A76" + "Look like poop, doesn't smell like it or taste like it though" + "\u00A76"));
+    public static final RegistryObject<Block> DARK_ORANGE_BLOCK = registerNormalBlock("dark_orange_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 1.0F,1.0F).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool().sound(SoundType.STONE), 0).addInfo("\u00A76" + "Not annoying" + "\u00A7"));
+    public static final RegistryObject<Block> DARK_RED_BLOCK = registerNormalBlock("dark_red_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 1.0F,1.0F).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool().sound(SoundType.STONE), 0).addInfo("\u00A74" + "We are built with this" + "\u00A74"));
+    public static final RegistryObject<Block> HEART_BLOCK = registerWIPBlock("heart_block", () -> new ABlock(AbstractBlock.Properties.create(Material.SAND).hardnessAndResistance( 0.6F).sound(SoundType.GROUND), 0).addInfo("\u00A7f" + "This block loves you" + "\u00A7f"));
+    public static final RegistryObject<Block> KYANITE = registerNormalBlock("kyanite", Kyanite::new);
+    public static final RegistryObject<Block> LEATHER_BLOCK = registerNormalBlock("leather_block", () -> new ABlock(AbstractBlock.Properties.create(Material.EARTH).hardnessAndResistance(1.0F, 1.0F).sound(new ForgeSoundType(1.0f, 1.0f, () -> new SoundEvent(RegistryHandler.LEATHER_BLOCK_BREAK.get().getRegistryName()), () -> new SoundEvent(RegistryHandler.LEATHER_BLOCK_STEP.get().getRegistryName()), () -> new SoundEvent(RegistryHandler.LEATHER_BLOCK_PLACE.get().getRegistryName()), () -> new SoundEvent(RegistryHandler.LEATHER_BLOCK_HIT.get().getRegistryName()), () -> new SoundEvent(RegistryHandler.LEATHER_BLOCK_PLACE.get().getRegistryName()))).harvestLevel(1), 0).addInfo("\u00A76" + "What a great place to store all that leather" + "\u00A76"));
+    public static final RegistryObject<Block> ORANGE_BLOCK = registerNormalBlock("orange_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(1.0F, 1.0F).sound(SoundType.STONE).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool(), 0).addInfo("\u00A76" + "Not a trumpet" + "\u00A76"));
+    public static final RegistryObject<Block> PLAY_BUTTON_ORE_BLOCK = registerNormalBlock("play_button_ore_block", PlayButtonOreBlock::new);
+    public static final RegistryObject<Block> RED_BLOCK = registerNormalBlock("red_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(1.0F, 1.0F).sound(SoundType.STONE).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool(), 0).addInfo("\u00A7c" + "Best color" + "\u00A7c"));
+    public static final RegistryObject<Block> RANDOM_STRUCTURE_BLOCK = registerNormalBlock("random_structure_spawner", RandomStructureBlock::new);
+    public static final RegistryObject<Block> SALT_ORE_BLOCK = registerNormalBlock("salt_ore_block", SaltOreBlock::new);
+    public static final RegistryObject<Block> SAPPHIRE_BLOCK = registerNormalBlock("sapphire_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).sound(SoundType.METAL).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool(), 0).addInfo("\u00A79" + "Sapphire blocks are seriously blue!" + "\u00A79"));
+    public static final RegistryObject<Block> SAPPHIRE_ORE_BLOCK = registerNormalBlock("sapphire_ore_block", SapphireOreBlock::new);
+    public static final RegistryObject<Block> STICKY_BLOCK = registerNormalBlock("sticky_block", StickyBlock::new);
+    public static final RegistryObject<Block> TERMITE_TROLL_ORE = registerNormalBlock("termite_troll_ore_block", TermiteTrollOre::new);
+    public static final RegistryObject<Block> TITANIUM_BLOCK = registerNormalBlock("titanium_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(5.0F, 5.0F).sound(SoundType.METAL).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool().setLightLevel(state -> 5), 0).addInfo("\u00A7b" +  "For the person who just has too much Titanium" + "\u00A7b"));
+    public static final RegistryObject<Block> TITANIUM_ORE_BLOCK = registerNormalBlock("titanium_ore_block", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(15.0F, 5.0F).sound(SoundType.STONE).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool(), 0).addInfo("\u00A7b" + "Oh yeah! Get excited! You're on your way to crafting something Ultimate! This is what you've been looking for! Smelt these to get Titanium Nuggets." + "\u00A7b"));
+    public static final RegistryObject<Block> URANIUM_BLOCK = registerWIPBlock("uranium_block",() -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(5.0F, 5.0F).sound(SoundType.METAL).harvestLevel(0).harvestTool(ToolType.PICKAXE).setRequiresTool().setLightLevel(state -> 2), 0).addInfo("\u00A7e" + "Make a nice yellow block!" + "\u00A7e"));
 
     //Block Items
-    public static final RegistryObject<Item> ABYSSAL_ORE_BLOCK_ITEM = ITEMS.register("abyssal_ore_block", () -> new BlockItemBase(ABYSSAL_ORE_BLOCK.get()));
-    public static final RegistryObject<Item> ABYSSAL_ORE_VERTICAL_SLAB_ITEM = conditionallyRegisterItem("abyssal_ore_vertical_slab", () -> new BlockItemBase(ABYSSAL_ORE_VERTICAL_SLAB.get()), () -> isLoaded("quark"));
-    public static final RegistryObject<Item> ADAMANTINE_BLOCK_ITEM = ITEMS.register("adamantine_block", () -> new BlockItemBase(ADAMANTINE_BLOCK.get()));
-    public static final RegistryObject<Item> ALUMINIUM_BLOCK_ITEM = ITEMS.register("aluminium_block", () -> new BlockItemBase(ALUMINIUM_BLOCK.get()));
-    public static final RegistryObject<Item> ALUMINIUM_ORE_BLOCK_ITEM = ITEMS.register("aluminium_ore_block", () -> new WIPBlockItemBase(ALUMINIUM_ORE_BLOCK.get()));
-    public static final RegistryObject<Item> APPLE_BLOCK_ITEM = ITEMS.register("apple_block", () -> new BlockItemBase(APPLE_BLOCK.get()));
-    public static final RegistryObject<Item> APPLE_LOG_ITEM = ITEMS.register("apple_log", () -> new WIPBlockItemBase(APPLE_LOG.get()));
-    public static final RegistryObject<Item> APPLE_LEAVES_ITEM = ITEMS.register("apple_leaves", () -> new WIPBlockItemBase(APPLE_LEAVES.get()));
-    public static final RegistryObject<Item> BLOODSTONE_BLOCK_ITEM = ITEMS.register("bloodstone_block", () -> new WIPBlockItemBase(BLOODSTONE_BLOCK.get()));
-    public static final RegistryObject<Item> BROWN_BLOCK_ITEM = ITEMS.register("brown_block", () -> new BlockItemBase(BROWN_BLOCK.get()));
-    public static final RegistryObject<Item> CATS_EYE_BLOCK_ITEM = ITEMS.register("cats_eye_block", () -> new BlockItemBase(CATS_EYE_BLOCK.get()));
-    public static final RegistryObject<Item> CATS_EYE_ORE_ITEM = ITEMS.register("cats_eye_ore", () -> new BlockItemBase(CATS_EYE_ORE.get()));
-    public static final RegistryObject<Item> COARSE_AMETHYST_BLOCK_ITEM = ITEMS.register("coarse_amethyst_block", () -> new BlockItemBase(COARSE_AMETHYST_BLOCK.get()));
-    public static final RegistryObject<Item> COARSE_AMETHYST_ORE_BLOCK_ITEM = ITEMS.register("coarse_amethyst_ore_block", () -> new BlockItemBase(COARSE_AMETHYST_ORE_BLOCK.get()));
-    public static final RegistryObject<Item> COMPRESSED_POPPY_BLOCK_ITEM = ITEMS.register("compressed_poppy_block", () -> new BlockItemBase(COMPRESSED_POPPY_BLOCK.get()));
-    public static final RegistryObject<Item> CRYSTAL_GRASS_ITEM = ITEMS.register("crystal_grass", () -> new BlockItemBase(CRYSTAL_GRASS.get()));
-    public static final RegistryObject<Item> DARK_BROWN_BLOCK_ITEM = ITEMS.register("dark_brown_block", () -> new BlockItemBase(DARK_BROWN_BLOCK.get()));
-    public static final RegistryObject<Item> DARK_ORANGE_BLOCK_ITEM = ITEMS.register("dark_orange_block", () -> new BlockItemBase(DARK_ORANGE_BLOCK.get()));
-    public static final RegistryObject<Item> DARK_RED_BLOCK_ITEM = ITEMS.register("dark_red_block", () -> new BlockItemBase(DARK_RED_BLOCK.get()));
-    public static final RegistryObject<Item> HEART_BLOCK_ITEM = ITEMS.register("heart_block", () -> new WIPBlockItemBase(HEART_BLOCK.get()));
-    public static final RegistryObject<Item> KYANITE_BLOCK_ITEM = ITEMS.register("kyanite", () -> new BlockItemBase(KYANITE.get()));
-    public static final RegistryObject<Item> LEATHER_BLOCK_ITEM = ITEMS.register("leather_block", () -> new BlockItemBase(LEATHER_BLOCK.get()));
-    public static final RegistryObject<Item> ORANGE_BLOCK_ITEM = ITEMS.register("orange_block", () -> new BlockItemBase(ORANGE_BLOCK.get()));
-    public static final RegistryObject<Item> PLAY_BUTTON_ORE_BLOCK_ITEM = ITEMS.register("play_button_ore_block", () -> new BlockItemBase(PLAY_BUTTON_ORE_BLOCK.get()));
-    public static final RegistryObject<Item> RED_BLOCK_ITEM = ITEMS.register("red_block", () -> new BlockItemBase(RED_BLOCK.get()));
-    public static final RegistryObject<Item> RANDOM_STRUCTURE_BLOCK_ITEM = ITEMS.register("random_structure_spawner", () -> new BlockItemBase(RANDOM_STRUCTURE_BLOCK.get()));
-    public static final RegistryObject<Item> SALT_ORE_BLOCK_ITEM = ITEMS.register("salt_ore_block", () -> new BlockItemBase(SALT_ORE_BLOCK.get()));
-    public static final RegistryObject<Item> SAPPHIRE_BLOCK_ITEM = ITEMS.register("sapphire_block", () -> new BlockItemBase(SAPPHIRE_BLOCK.get()));
-    public static final RegistryObject<Item> SAPPHIRE_ORE_BLOCK_ITEM = ITEMS.register("sapphire_ore_block", () -> new BlockItemBase(SAPPHIRE_ORE_BLOCK.get()));
-    public static final RegistryObject<Item> STICKY_BLOCK_ITEM = ITEMS.register("sticky_block", () -> new BlockItemBase(STICKY_BLOCK.get()));
-    public static final RegistryObject<Item> TERMITE_TROLL_ORE_BLOCK_ITEM = ITEMS.register("termite_troll_ore_block", () -> new BlockItemBase(TERMITE_TROLL_ORE.get()));
-    public static final RegistryObject<Item> TITANIUM_BLOCK_ITEM = ITEMS.register("titanium_block", () -> new BlockItemBase(TITANIUM_BLOCK.get()));
-    public static final RegistryObject<Item> TITANIUM_ORE_BLOCK_ITEM = ITEMS.register("titanium_ore_block", () -> new BlockItemBase(TITANIUM_ORE_BLOCK.get()));
-    public static final RegistryObject<Item> URANIUM_BLOCK_ITEM = ITEMS.register("uranium_block", () -> new WIPBlockItemBase(URANIUM_BLOCK.get()));
+    private static <T extends Block> RegistryObject<T> registerNormalBlock(String name, Supplier<T> block) {
+        RegistryObject<T> toReturn = BLOCKS.register(name, block);
+        registerNormalBlockItem(name, toReturn);
+        return toReturn;
+    }
+    private static <T extends Block> RegistryObject<Item> registerNormalBlockItem(String name, RegistryObject<T> block) {
+        return RegistryHandler.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().group(DangerZone.BLOCKS)));
+    }
+    private static <T extends Block> RegistryObject<T> registerWIPBlock(String name, Supplier<T> block) {
+        RegistryObject<T> toReturn = BLOCKS.register(name, block);
+        registerWIPBlockItem(name, toReturn);
+        return toReturn;
+    }
+    private static <T extends Block> RegistryObject<Item> registerPetrifiedBlockItem(String name, RegistryObject<T> block) {
+        return RegistryHandler.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().group(DangerZone.PETRIFIED_ORES)));
+    }
+    private static <T extends Block> RegistryObject<T> registerPetrifiedBlock(String name, Supplier<T> block) {
+        RegistryObject<T> toReturn = BLOCKS.register(name, block);
+        registerPetrifiedBlockItem(name, toReturn);
+        return toReturn;
+    }
+    private static <T extends Block> RegistryObject<Item> registerWIPBlockItem(String name, RegistryObject<T> block) {
+        return RegistryHandler.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().group(DangerZone.WIP)));
+    }
 
     //Dimensions
     public static final RegistryKey<World> DANGER = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(DangerZone.MOD_ID, "danger"));
@@ -353,7 +350,6 @@ public class RegistryHandler {
     public static final RegistryObject<CandyCane> CANDY_CANE = ITEMS.register("candy_cane", CandyCane::new);
     public static final RegistryObject<Item> CATS_EYE = ITEMS.register("cats_eye", () -> new AItem(DangerZone.TAB).addInfo("\u00A76" + "Cats are connoisseurs of comfort" + "\u00A76"));
     public static final RegistryObject<Cheese> CHEESE = ITEMS.register("cheese", Cheese::new);
-
     public static final RegistryObject<Item> COARSE_AMETHYST = ITEMS.register("coarse_amethyst", () -> new AItem(DangerZone.TAB).addInfo("\u00A75" + "They make some pretty cool Coarse Amethyst Tools & a Coarse Amethyst Sword, you can also make Coarse Amethyst Armor" + "\u00A75"));
     public static final RegistryObject<CookedBacon> COOKED_BACON = ITEMS.register("cooked_bacon", CookedBacon::new);
     public static final RegistryObject<Item> COPPER_LUMP = ITEMS.register("copper_lump", () -> new AItem(DangerZone.TAB).addInfo("\u00A76" + "Makes some of the worst armor in the game" + "\u00A76"));
@@ -393,31 +389,17 @@ public class RegistryHandler {
     public static final RegistryObject<Item> WRENCH = ITEMS.register("wrench", Wrench::new);
 
     //Petrified Mob blocks
-    public static final RegistryObject<Block> BUTTERFLY_EGG_ORE = BLOCKS.register("butterfly_egg_ore", BlockMobOre::new);
-    public static final RegistryObject<Block> GODZILLA_EGG_ORE = BLOCKS.register("godzilla_egg_ore", BlockMobOre::new);
-    public static final RegistryObject<Block> GUARDIAN_EGG_ORE = BLOCKS.register("guardian_egg_ore", BlockMobOre::new);
-    public static final RegistryObject<Block> MAGMA_CUBE_EGG_ORE = BLOCKS.register("magma_cube_egg_ore", BlockMobOre::new);
-    public static final RegistryObject<Block> MUTANT_ZOMBIE_EGG_ORE = BLOCKS.register("mutant_zombie_egg_ore", BlockMobOre::new);
-    public static final RegistryObject<Block> RAINBOW_ANT_EGG_ORE = BLOCKS.register("rainbow_ant_egg_ore", BlockMobOre::new);
-    public static final RegistryObject<Block> REDROSEWARRIOR_EGG_ORE = BLOCKS.register("redrosewarrior_egg_ore", BlockMobOre::new);
-    public static final RegistryObject<Block> STAMPYLONGNOSE_EGG_ORE = BLOCKS.register("petrified_stampylongnose_ore", BlockMobOre::new);
-    public static final RegistryObject<Block> TERMITE_EGG_ORE = BLOCKS.register("termite_egg_ore", BlockMobOre::new);
-    public static final RegistryObject<Block> TEWTIY_EGG_ORE = BLOCKS.register("petrified_tewtiy_ore", BlockMobOre::new);
-    public static final RegistryObject<Block> ZOMBIE_EGG_ORE = BLOCKS.register("petrified_zombie_ore", BlockMobOre::new);
-
-
-    //Petrified Mob items
-    public static final RegistryObject<Item> BUTTERFLY_EGG_ORE_ITEM = ITEMS.register("butterfly_egg_ore", () -> new BlockItemMobOre(BUTTERFLY_EGG_ORE.get()));
-    public static final RegistryObject<Item> GODZILLA_EGG_ORE_ITEM = ITEMS.register("godzilla_egg_ore", () -> new BlockItemMobOre(GODZILLA_EGG_ORE.get()));
-    public static final RegistryObject<Item> GUARDIAN_EGG_ORE_ITEM = ITEMS.register("guardian_egg_ore", () -> new BlockItemMobOre(GUARDIAN_EGG_ORE.get()));
-    public static final RegistryObject<Item> REDROSEWARRIOR_EGG_ORE_ITEM = ITEMS.register("redrosewarrior_egg_ore", () -> new BlockItemMobOre(REDROSEWARRIOR_EGG_ORE.get()));
-    public static final RegistryObject<Item> MAGMA_CUBE_EGG_ORE_ITEM = ITEMS.register("magma_cube_egg_ore", () -> new BlockItemMobOre(MAGMA_CUBE_EGG_ORE.get()));
-    public static final RegistryObject<Item> Mutant_Zombie_EGG_ORE_ITEM = ITEMS.register("mutant_zombie_egg_ore", () -> new BlockItemMobOre(MUTANT_ZOMBIE_EGG_ORE.get()));
-    public static final RegistryObject<Item> RAINBOW_ANT_EGG_ORE_ITEM = ITEMS.register("rainbow_ant_egg_ore", () -> new BlockItemMobOre(RAINBOW_ANT_EGG_ORE.get()));
-    public static final RegistryObject<Item> STAMPYLONGNOSE_EGG_ORE_ITEM = ITEMS.register("petrified_stampylongnose_ore", () -> new BlockItemMobOre(STAMPYLONGNOSE_EGG_ORE.get()));
-    public static final RegistryObject<Item> TERMITE_EGG_ORE_ITEM = ITEMS.register("termite_egg_ore", () -> new BlockItemMobOre(TERMITE_EGG_ORE.get()));
-    public static final RegistryObject<Item> TEWTIY_EGG_ORE_ITEM = ITEMS.register("petrified_tewtiy_ore", () -> new BlockItemMobOre(TEWTIY_EGG_ORE.get()));
-    public static final RegistryObject<Item> ZOMBIE_EGG_ORE_ITEM = ITEMS.register("petrified_zombie_ore", () -> new BlockItemMobOre(ZOMBIE_EGG_ORE.get()));
+    public static final RegistryObject<Block> BUTTERFLY_EGG_ORE = registerPetrifiedBlock("butterfly_egg_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
+    public static final RegistryObject<Block> GODZILLA_EGG_ORE = registerPetrifiedBlock("godzilla_egg_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
+    public static final RegistryObject<Block> GUARDIAN_EGG_ORE = registerPetrifiedBlock("guardian_egg_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
+    public static final RegistryObject<Block> MAGMA_CUBE_EGG_ORE = registerPetrifiedBlock("magma_cube_egg_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
+    public static final RegistryObject<Block> MUTANT_ZOMBIE_EGG_ORE = registerPetrifiedBlock("mutant_zombie_egg_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
+    public static final RegistryObject<Block> RAINBOW_ANT_EGG_ORE = registerPetrifiedBlock("rainbow_ant_egg_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
+    public static final RegistryObject<Block> REDROSEWARRIOR_EGG_ORE = registerPetrifiedBlock("redrosewarrior_egg_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
+    public static final RegistryObject<Block> STAMPYLONGNOSE_EGG_ORE = registerPetrifiedBlock("petrified_stampylongnose_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
+    public static final RegistryObject<Block> TERMITE_EGG_ORE = registerPetrifiedBlock("termite_egg_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
+    public static final RegistryObject<Block> TEWTIY_EGG_ORE = registerPetrifiedBlock("petrified_tewtiy_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
+    public static final RegistryObject<Block> ZOMBIE_EGG_ORE = registerPetrifiedBlock("petrified_zombie_ore", () -> new ABlock(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance( 2F,2F).harvestLevel(2).sound(SoundType.STONE).setRequiresTool(), 0));
 
     //Spawn Eggs
     public static final RegistryObject<Item> ALLOSAURUS_SPAWN_EGG = ITEMS.register("allosaurus_spawn_egg", () -> new SpawnEgg(RegistryHandler.ALLOSAURUS, 0, 0, new Item.Properties().group(DangerZone.TAB)));
