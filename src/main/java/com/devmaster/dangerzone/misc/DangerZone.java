@@ -21,10 +21,8 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.gen.feature.Feature;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -68,6 +66,8 @@ public class DangerZone {
         MinecraftForge.EVENT_BUS.addListener(ModOregen::handleWorldGen);
         MinecraftForge.EVENT_BUS.addListener(ScytheHitEvent::onAttackEntity);
         MinecraftForge.EVENT_BUS.addListener(ArmoredMobSpawnEvents::spawnMonster);
+        new HitCostEvent();
+
     }
 
     private void setup(final FMLCommonSetupEvent event) {
