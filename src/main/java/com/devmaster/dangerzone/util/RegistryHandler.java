@@ -2,12 +2,9 @@ package com.devmaster.dangerzone.util;
 
 import com.devmaster.dangerzone.configs.DZConfig;
 import com.devmaster.dangerzone.entity.*;
-import com.devmaster.dangerzone.misc.ArmourEvents;
-import com.devmaster.dangerzone.misc.ArmourEvents.EventType;
 import com.devmaster.dangerzone.misc.DangerZone;
 import com.devmaster.dangerzone.blocks.*;
 import com.devmaster.dangerzone.items.*;
-import com.devmaster.dangerzone.items.EmeraldPickaxe;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -18,8 +15,6 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -439,13 +434,13 @@ public class RegistryHandler {
     public static final RegistryObject<ExperienceScythe> EXPERIENCE_SCYTHE = ITEMS.register("experience_scythe", ExperienceScythe::new);
     public static final RegistryObject<CoarseAmethystAxe> COARSE_AMETHYST_AXE = ITEMS.register("coarse_amethyst_axe", CoarseAmethystAxe::new);
     public static final RegistryObject<CoarseAmethystHoe> COARSE_AMETHYST_HOE = ITEMS.register("coarse_amethyst_hoe", CoarseAmethystHoe::new);
-    public static final RegistryObject<CoarseAmethystPickaxe> COARSE_AMETHYST_PICKAXE = ITEMS.register("coarse_amethyst_pickaxe", CoarseAmethystPickaxe::new);
+    public static final RegistryObject<Pickaxe> COARSE_AMETHYST_PICKAXE = ITEMS.register("coarse_amethyst_pickaxe", () -> new Pickaxe(new ModdedTier(DZConfig.COARSE_AMETHYST_PICKAXE_DURABILITY.get(), DZConfig.COARSE_AMETHYST_PICKAXE_DAMAGE.get(), DZConfig.COARSE_AMETHYST_PICKAXE_EFFICIENCY.get(), DZConfig.COARSE_AMETHYST_PICKAXE_ATTACK_SPEED.get()).level(DZConfig.COARSE_AMETHYST_PICKAXE_HARVEST_LEVEL.get()).enchanting(DZConfig.COARSE_AMETHYST_PICKAXE_ENCHANTABILITY.get()).material(RegistryHandler.COARSE_AMETHYST.get()), DZConfig.COARSE_AMETHYST_PICKAXE_HIT_COST.get()).build(0, 0).addInfo("\u00A75" + "Go MINE YOUR DREAMS" + "\u00A75"));
     public static final RegistryObject<CoarseAmethystShovel> COARSE_AMETHYST_SHOVEL = ITEMS.register("coarse_amethyst_shovel", CoarseAmethystShovel::new);
     public static final RegistryObject<Sword> COARSE_AMETHYST_SWORD = ITEMS.register("coarse_amethyst_sword", () -> new Sword(new ModdedTier(DZConfig.COARSE_AMETHYST_SWORD_DURABILITY.get(), DZConfig.COARSE_AMETHYST_SWORD_DAMAGE.get(), DZConfig.COARSE_AMETHYST_SWORD_EFFICIENCY.get(),DZConfig.COARSE_AMETHYST_SWORD_ATTACK_SPEED.get()).enchanting(DZConfig.COARSE_AMETHYST_SWORD_ENCHANTABILITY.get()).material(RegistryHandler.COARSE_AMETHYST.get()), DZConfig.COARSE_AMETHYST_SWORD_HIT_COST.get()).build(0, 0).addInfo("\u00A75" + "Go destroy your foes" + "\u00A75"));
     public static final RegistryObject<Sword> CAKE_SWORD = ITEMS.register("cake_sword", () -> new Sword(new ModdedTier(DZConfig.CAKE_SWORD_DURABILITY.get(), DZConfig.CAKE_SWORD_DAMAGE.get(), DZConfig.CAKE_SWORD_EFFICIENCY.get(),DZConfig.CAKE_SWORD_ATTACK_SPEED.get()).enchanting(DZConfig.CAKE_SWORD_ENCHANTABILITY.get()).material(Items.CAKE), DZConfig.CAKE_SWORD_HIT_COST.get()).build(0, 0).addInfo("\u00A7f" + "Thank you for 2k downloads" + "\u00A7f"));
     public static final RegistryObject<EmeraldAxe> EMERALD_AXE = ITEMS.register("emerald_axe", EmeraldAxe::new);
     public static final RegistryObject<EmeraldHoe> EMERALD_HOE = ITEMS.register("emerald_hoe", EmeraldHoe::new);
-    public static final RegistryObject<EmeraldPickaxe> EMERALD_PICKAXE = ITEMS.register("emerald_pickaxe", EmeraldPickaxe::new);
+    public static final RegistryObject<Pickaxe> EMERALD_PICKAXE = ITEMS.register("emerald_pickaxe", () -> new Pickaxe(new ModdedTier(DZConfig.EMERALD_PICKAXE_DURABILITY.get(), DZConfig.EMERALD_PICKAXE_DAMAGE.get(), DZConfig.EMERALD_PICKAXE_EFFICIENCY.get(), DZConfig.EMERALD_PICKAXE_ATTACK_SPEED.get()).level(DZConfig.EMERALD_PICKAXE_HARVEST_LEVEL.get()).enchanting(DZConfig.EMERALD_PICKAXE_ENCHANTABILITY.get()).material(Items.EMERALD), DZConfig.EMERALD_PICKAXE_HIT_COST.get()).build(0, 0).addInfo("\u00A72" + "Now you know why those greedy villagers love these green gems so much" + "\u00A72"));
     public static final RegistryObject<EmeraldShovel> EMERALD_SHOVEL = ITEMS.register("emerald_shovel", EmeraldShovel::new);
     public static final RegistryObject<Item> EMERALD_SWORD = ITEMS.register("emerald_sword", () -> new Sword(new ModdedTier(DZConfig.EMERALD_SWORD_DURABILITY.get(), DZConfig.EMERALD_SWORD_DAMAGE.get(), DZConfig.EMERALD_SWORD_EFFICIENCY.get(),DZConfig.EMERALD_SWORD_ATTACK_SPEED.get()).enchanting(DZConfig.EMERALD_SWORD_ENCHANTABILITY.get()).material(Items.EMERALD), DZConfig.EMERALD_SWORD_HIT_COST.get()).build(0, 0).addInfo("\u00A72" + "Kill those greedy villagers" + "\u00A72"));
     public static final RegistryObject<Hammy> HAMMY = ITEMS.register("hammy", Hammy::new);
@@ -454,19 +449,19 @@ public class RegistryHandler {
     public static final RegistryObject<QueenGhidorahScaleBattleAxe> QUEEN_GHIDORAH_SCALE_BATTLE_AXE = ITEMS.register("queen_ghidorah_scale_battle_axe", QueenGhidorahScaleBattleAxe::new);
     public static final RegistryObject<SapphireAxe> SAPPHIRE_AXE = ITEMS.register("sapphire_axe", SapphireAxe::new);
     public static final RegistryObject<SapphireHoe> SAPPHIRE_HOE = ITEMS.register("sapphire_hoe", SapphireHoe::new);
-    public static final RegistryObject<SapphirePickaxe> SAPPHIRE_PICKAXE = ITEMS.register("sapphire_pickaxe", SapphirePickaxe::new);
+    public static final RegistryObject<Pickaxe> SAPPHIRE_PICKAXE = ITEMS.register("sapphire_pickaxe", () -> new Pickaxe(new ModdedTier(DZConfig.SAPPHIRE_PICKAXE_DURABILITY.get(), DZConfig.SAPPHIRE_PICKAXE_DAMAGE.get(), DZConfig.SAPPHIRE_PICKAXE_EFFICIENCY.get(), DZConfig.SAPPHIRE_PICKAXE_ATTACK_SPEED.get()).level(DZConfig.SAPPHIRE_PICKAXE_HARVEST_LEVEL.get()).enchanting(DZConfig.SAPPHIRE_PICKAXE_ENCHANTABILITY.get()).material(RegistryHandler.SAPPHIRE.get()), DZConfig.SAPPHIRE_PICKAXE_HIT_COST.get()).build(0, 0).addInfo("\u00A79" + "The pickaxe from Madagascar" + "\u00A79"));
     public static final RegistryObject<SapphireShovel> SAPPHIRE_SHOVEL = ITEMS.register("sapphire_shovel", SapphireShovel::new);
     public static final RegistryObject<Sword> SAPPHIRE_SWORD = ITEMS.register("sapphire_sword", () -> new Sword(new ModdedTier(DZConfig.SAPPHIRE_SWORD_DURABILITY.get(), DZConfig.SAPPHIRE_SWORD_DAMAGE.get(), DZConfig.SAPPHIRE_SWORD_EFFICIENCY.get(),DZConfig.SAPPHIRE_SWORD_ATTACK_SPEED.get()).enchanting(DZConfig.SAPPHIRE_SWORD_ENCHANTABILITY.get()).material(RegistryHandler.SAPPHIRE.get()), DZConfig.SAPPHIRE_SWORD_HIT_COST.get()).build(0, 0).addInfo("\u00A79" + "Lasts forever it feels like" + "\u00A79"));
     public static final RegistryObject<AluminiumAxe> ALUMINIUM_AXE = ITEMS.register("aluminium_axe", AluminiumAxe::new);
     public static final RegistryObject<AluminiumHoe> ALUMINIUM_HOE = ITEMS.register("aluminium_hoe", AluminiumHoe::new);
-    public static final RegistryObject<AluminiumPickaxe> ALUMINIUM_PICKAXE = ITEMS.register("aluminium_pickaxe", AluminiumPickaxe::new);
+    public static final RegistryObject<Pickaxe> ALUMINIUM_PICKAXE = ITEMS.register("aluminium_pickaxe", () -> new Pickaxe(new ModdedTier(DZConfig.ALUMINIUM_PICKAXE_DURABILITY.get(), DZConfig.ALUMINIUM_PICKAXE_DAMAGE.get(), DZConfig.ALUMINIUM_PICKAXE_EFFICIENCY.get(), DZConfig.ALUMINIUM_PICKAXE_ATTACK_SPEED.get()).level(DZConfig.ALUMINIUM_PICKAXE_HARVEST_LEVEL.get()).enchanting(DZConfig.ALUMINIUM_PICKAXE_ENCHANTABILITY.get()).material(RegistryHandler.ALUMINIUM.get()), DZConfig.ALUMINIUM_PICKAXE_HIT_COST.get()).build(0, 0).addInfo("\u00A7f" + "Same mining level as iron" + "\u00A7f"));
     public static final RegistryObject<AluminiumShovel> ALUMINIUM_SHOVEL = ITEMS.register("aluminium_shovel", AluminiumShovel::new);
     public static final RegistryObject<GodzillaAxe> GODZILLA_AXE = ITEMS.register("godzilla_axe", GodzillaAxe::new);
-    public static final RegistryObject<Sword> FIRE_CAKE_SWORD = ITEMS.register("fire_cake_sword", () -> new Sword(new ModdedTier(DZConfig.FIRE_CAKE_SWORD_DURABILITY.get(), DZConfig.FIRE_CAKE_SWORD_DAMAGE.get(), DZConfig.FIRE_CAKE_SWORD_EFFICIENCY.get(),DZConfig.FIRE_CAKE_SWORD_ATTACK_SPEED.get()).enchanting(DZConfig.FIRE_CAKE_SWORD_ENCHANTABILITY.get()).material(Items.CAKE), DZConfig.FIRE_CAKE_SWORD_HIT_COST.get()).build(0, 0).addInfo("\u00A79" + "Lasts forever it feels like" + "\u00A79").addDefaultEnchantment(Enchantments.FIRE_ASPECT, 1));
+    public static final RegistryObject<Sword> FIRE_CAKE_SWORD = ITEMS.register("fire_cake_sword", () -> new Sword(new ModdedTier(DZConfig.FIRE_CAKE_SWORD_DURABILITY.get(), DZConfig.FIRE_CAKE_SWORD_DAMAGE.get(), DZConfig.FIRE_CAKE_SWORD_EFFICIENCY.get(),DZConfig.FIRE_CAKE_SWORD_ATTACK_SPEED.get()).enchanting(DZConfig.FIRE_CAKE_SWORD_ENCHANTABILITY.get()).material(Items.CAKE), DZConfig.FIRE_CAKE_SWORD_HIT_COST.get()).build(0, 0).addInfo("\u00A72" + "Thank you for 2k downloads" + "\u00A72").addDefaultEnchantment(Enchantments.FIRE_ASPECT, 1));
     public static final RegistryObject<Sword> TITANIUM_CAKE_SWORD = ITEMS.register("titanium_cake_sword", () -> new Sword(new ModdedTier(DZConfig.TITANIUM_CAKE_SWORD_DURABILITY.get(), DZConfig.TITANIUM_CAKE_SWORD_DAMAGE.get(), DZConfig.TITANIUM_CAKE_SWORD_EFFICIENCY.get(),DZConfig.TITANIUM_CAKE_SWORD_ATTACK_SPEED.get()).enchanting(DZConfig.TITANIUM_CAKE_SWORD_ENCHANTABILITY.get()).material(RegistryHandler.TITANIUM_CAKE.get()), DZConfig.TITANIUM_CAKE_SWORD_HIT_COST.get()).build(0, 0).addInfo("\u00A7b" + "Thank you for 5k downloads" + "\u00A7b").addDefaultEnchantment(Enchantments.FIRE_ASPECT, 1));
     public static final RegistryObject<TitaniumHoe> TITANIUM_HOE = ITEMS.register("titanium_hoe", TitaniumHoe::new);
     public static final RegistryObject<TitaniumShovel> TITANIUM_SHOVEL = ITEMS.register("titanium_shovel", TitaniumShovel::new);
-    public static final RegistryObject<TitaniumPickaxe> TITANIUM_PICKAXE = ITEMS.register("titanium_pickaxe", TitaniumPickaxe::new);
+    public static final RegistryObject<Pickaxe> TITANIUM_PICKAXE = ITEMS.register("titanium_pickaxe", () -> new Pickaxe(new ModdedTier(DZConfig.TITANIUM_PICKAXE_DURABILITY.get(), DZConfig.TITANIUM_PICKAXE_DAMAGE.get(), DZConfig.TITANIUM_PICKAXE_EFFICIENCY.get(), DZConfig.TITANIUM_PICKAXE_ATTACK_SPEED.get()).level(DZConfig.TITANIUM_PICKAXE_HARVEST_LEVEL.get()).enchanting(DZConfig.TITANIUM_PICKAXE_ENCHANTABILITY.get()).material(Items.AIR), DZConfig.TITANIUM_PICKAXE_HIT_COST.get()).build(0, 0).addInfo("\u00A7b" + "Canadian" + "\u00A7b"));
     public static final RegistryObject<TitaniumAxe> TITANIUM_AXE = ITEMS.register("titanium_axe", TitaniumAxe::new);
 
     //SOUNDS

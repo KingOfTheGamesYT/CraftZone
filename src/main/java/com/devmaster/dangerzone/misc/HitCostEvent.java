@@ -2,6 +2,7 @@ package com.devmaster.dangerzone.misc;
 
 import com.devmaster.dangerzone.items.Armour;
 
+import com.devmaster.dangerzone.items.Pickaxe;
 import com.devmaster.dangerzone.items.Sword;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -30,7 +31,8 @@ public class HitCostEvent {
         if (attacker instanceof LivingEntity) {
             LivingEntity livingAttacker = (LivingEntity) attacker;
 
-            // Apply hit cost to the sword or weapon in the attacker's hand
+            applyPickaxeHitCost(livingAttacker);
+            // Apply hit cost to the sword
             applySwordHitCost(livingAttacker);
         }
     }
@@ -62,7 +64,7 @@ public class HitCostEvent {
         }
     }
 
-    // Method to apply the hit cost to swords or tools when attacking
+    // Method to apply the hit cost to swords when attacking
     private void applySwordHitCost(LivingEntity attacker) {
         ItemStack mainHandItem = attacker.getHeldItemMainhand();  // Get the item in the attacker's main hand
 
@@ -70,8 +72,22 @@ public class HitCostEvent {
         if (mainHandItem.getItem() instanceof Sword) {
             Sword sword = (Sword) mainHandItem.getItem();
 
-            // Apply custom durability multiplier (use sword.durabilityMultiplier or your custom logic)
+            // Apply custom durability multiplier
             int damage = (int) (sword.durabilityMultiplier);
+            mainHandItem.damageItem(damage, attacker, (e) -> {
+                e.sendBreakAnimation(EquipmentSlotType.MAINHAND);  // Break animation if the sword reaches 0 durability
+            });
+        }
+    }
+    private void applyPickaxeHitCost(LivingEntity attacker) {
+        ItemStack mainHandItem = attacker.getHeldItemMainhand();  // Get the item in the attacker's main hand
+
+        // Check if the item is a custom sword
+        if (mainHandItem.getItem() instanceof Pickaxe) {
+            Pickaxe pickaxe = (Pickaxe) mainHandItem.getItem();
+
+            // Apply custom durability multiplier (use sword.durabilityMultiplier or your custom logic)
+            int damage = (int) (pickaxe.durabilityMultiplier);
             mainHandItem.damageItem(damage, attacker, (e) -> {
                 e.sendBreakAnimation(EquipmentSlotType.MAINHAND);  // Break animation if the sword reaches 0 durability
             });
