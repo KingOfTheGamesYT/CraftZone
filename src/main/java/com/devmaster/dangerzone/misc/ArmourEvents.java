@@ -27,9 +27,7 @@ public class ArmourEvents {
 	public static HashMap<EventType, ArrayList<ArmourEvents>> eventlist = new HashMap<>();
 
 	// Constructor for ArmourEvents
-	public ArmourEvents(EventType type,
-                        QuadPredicate<PlayerEntity, Entity, DamageSource, ItemStack> condition,
-                        QuadConsumer<PlayerEntity, Entity, DamageSource, ItemStack> action) {
+	public ArmourEvents(EventType type, QuadPredicate<PlayerEntity, Entity, DamageSource, ItemStack> condition, QuadConsumer<PlayerEntity, Entity, DamageSource, ItemStack> action) {
 		this.type = type;
 		this.condition = condition != null ? condition : (player, enemy, source, helditem) -> true; // Default to true if condition is null
 		this.action = action;
