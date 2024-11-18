@@ -1,13 +1,13 @@
 package com.devmaster.dangerzone.misc;
 
-import com.devmaster.dangerzone.items.Armour;
+import com.devmaster.dangerzone.items.*;
 
-import com.devmaster.dangerzone.items.Pickaxe;
-import com.devmaster.dangerzone.items.Sword;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -32,8 +32,9 @@ public class HitCostEvent {
             LivingEntity livingAttacker = (LivingEntity) attacker;
 
             applyPickaxeHitCost(livingAttacker);
-            // Apply hit cost to the sword
+            applyAxeHitCost(livingAttacker);
             applySwordHitCost(livingAttacker);
+            applyShovelHitCost(livingAttacker);
         }
     }
 
@@ -45,6 +46,21 @@ public class HitCostEvent {
 
             // Apply hit cost to armor
             applyArmorHitCost(entity);
+        }
+    }
+
+    // Listen for Block Break Event (when a block is broken by a player)
+    @SubscribeEvent
+    public void onBlockBreak(BlockEvent.BreakEvent event) {
+        PlayerEntity player = event.getPlayer();
+
+        if (player instanceof PlayerEntity) {
+
+            applyPickaxeHitCost(player);
+            applyAxeHitCost(player);
+            applySwordHitCost(player);
+            applyShovelHitCost(player);
+
         }
     }
 
@@ -82,12 +98,34 @@ public class HitCostEvent {
     private void applyPickaxeHitCost(LivingEntity attacker) {
         ItemStack mainHandItem = attacker.getHeldItemMainhand();  // Get the item in the attacker's main hand
 
-        // Check if the item is a custom sword
         if (mainHandItem.getItem() instanceof Pickaxe) {
             Pickaxe pickaxe = (Pickaxe) mainHandItem.getItem();
 
-            // Apply custom durability multiplier (use sword.durabilityMultiplier or your custom logic)
             int damage = (int) (pickaxe.durabilityMultiplier);
+            mainHandItem.damageItem(damage, attacker, (e) -> {
+                e.sendBreakAnimation(EquipmentSlotType.MAINHAND);
+            });
+        }
+    }
+    private void applyAxeHitCost(LivingEntity attacker) {
+        ItemStack mainHandItem = attacker.getHeldItemMainhand();  // Get the item in the attacker's main hand
+
+        if (mainHandItem.getItem() instanceof Axe) {
+            Axe axe = (Axe) mainHandItem.getItem();
+
+            int damage = (int) (axe.durabilityMultiplier);
+            mainHandItem.damageItem(damage, attacker, (e) -> {
+                e.sendBreakAnimation(EquipmentSlotType.MAINHAND);  // Break animation if the sword reaches 0 durability
+            });
+        }
+    }
+    private void applyShovelHitCost(LivingEntity attacker) {
+        ItemStack mainHandItem = attacker.getHeldItemMainhand();  // Get the item in the attacker's main hand
+
+        if (mainHandItem.getItem() instanceof Shovel) {
+            Shovel shovel = (Shovel) mainHandItem.getItem();
+
+            int damage = (int) (shovel.durabilityMultiplier);
             mainHandItem.damageItem(damage, attacker, (e) -> {
                 e.sendBreakAnimation(EquipmentSlotType.MAINHAND);  // Break animation if the sword reaches 0 durability
             });

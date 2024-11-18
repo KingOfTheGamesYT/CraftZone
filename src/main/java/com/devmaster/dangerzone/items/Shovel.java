@@ -14,16 +14,17 @@ import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.ForgeMod;
 
 import java.util.List;
 import java.util.UUID;
 
-public class Pickaxe extends PickaxeItem
+public class Shovel extends ShovelItem
 {
 	protected static final UUID MOVESPEED = UUID.fromString("35f5b798-7778-4017-98f9-ff557dc28f03");
 	protected static final UUID REACH = UUID.fromString("168fad76-3979-4638-91c9-a366c0933551");
@@ -34,42 +35,42 @@ public class Pickaxe extends PickaxeItem
 	protected ItemStack repairitem;
 	public int durabilityMultiplier;
 
-	public Pickaxe(ModdedTier tier, int durabilityMultiplier)
+	public Shovel(ModdedTier tier, int durabilityMultiplier)
 	{
 		super(tier, -1, -2.4F, new Properties().group(DangerZone.TOOLS));
 		this.repairitem = tier.getRepairItem();
 		this.durabilityMultiplier = durabilityMultiplier;  // Set multiplier when registering
 	}
 
-	public Pickaxe build(float reach, float movespeed)
+	public Shovel build(float reach, float movespeed)
 	{
 		this.reach = reach;
 		this.movespeed = movespeed;
 		Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Pickaxe modifier", (double) getAttackDamage(), Operation.ADDITION));
-		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Pickaxe modifier", (double) (-2.4f), Operation.ADDITION));
+		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Shovel modifier", (double) getAttackDamage(), Operation.ADDITION));
+		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Shovel modifier", (double) (-2.4f), Operation.ADDITION));
 		modifiers = builder.build();
 		return this;
 	}
 
-	public Pickaxe rebuild()
+	public Shovel rebuild()
 	{
 		Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 		builder.putAll(modifiers);
 		if (movespeed != 0)
 		{
-			builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(MOVESPEED, "Pickaxe modifier", (double) movespeed, Operation.MULTIPLY_TOTAL));
+			builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(MOVESPEED, "Shovel modifier", (double) movespeed, Operation.MULTIPLY_TOTAL));
 		}
 		if (reach != 0)
 		{
-			builder.put(ForgeMod.REACH_DISTANCE.get(), new AttributeModifier(REACH, "Pickaxe modifier", (double) reach, Operation.MULTIPLY_TOTAL));
+			builder.put(ForgeMod.REACH_DISTANCE.get(), new AttributeModifier(REACH, "Shovel modifier", (double) reach, Operation.MULTIPLY_TOTAL));
 		}
 		modifiers = builder.build();
 
 		return this;
 	}
 
-	public Pickaxe rebuildWith(Attribute attribute, UUID id, String modifiername, double value, Operation valuetype)
+	public Shovel rebuildWith(Attribute attribute, UUID id, String modifiername, double value, Operation valuetype)
 	{
 		Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 		builder.putAll(modifiers);
@@ -78,7 +79,7 @@ public class Pickaxe extends PickaxeItem
 		return this;
 	}
 
-	public Pickaxe addInfo(String... newInfo) {
+	public Shovel addInfo(String... newInfo) {
 		if (newInfo != null && newInfo.length > 0) {
 			String[] combinedInfo = new String[this.info.length + newInfo.length];
 			System.arraycopy(this.info, 0, combinedInfo, 0, this.info.length);
