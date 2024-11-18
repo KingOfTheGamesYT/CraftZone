@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,7 +22,6 @@ public class HitCostEvent {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    // Listen for LivingAttackEvent (when an entity is hit by another entity)
     @SubscribeEvent
     public void onLivingAttack(LivingAttackEvent event) {
         // Get the attacker (entity that is attacking another entity)
@@ -35,6 +35,7 @@ public class HitCostEvent {
             applyAxeHitCost(livingAttacker);
             applySwordHitCost(livingAttacker);
             applyShovelHitCost(livingAttacker);
+            applyHoeHitCost(livingAttacker);
         }
     }
 
@@ -60,10 +61,21 @@ public class HitCostEvent {
             applyAxeHitCost(player);
             applySwordHitCost(player);
             applyShovelHitCost(player);
+            applyHoeHitCost(player);
 
         }
     }
 
+    @SubscribeEvent
+    public void onUseHoe(UseHoeEvent event) {
+        PlayerEntity player = event.getPlayer();
+
+        if (player instanceof PlayerEntity) {
+
+            applyHoeHitCost(player);
+
+        }
+    }
     // Method to apply the hit cost to armor
     private void applyArmorHitCost(LivingEntity entity) {
         // Iterate over the entity's armor inventory
@@ -128,6 +140,18 @@ public class HitCostEvent {
             int damage = (int) (shovel.durabilityMultiplier);
             mainHandItem.damageItem(damage, attacker, (e) -> {
                 e.sendBreakAnimation(EquipmentSlotType.MAINHAND);  // Break animation if the sword reaches 0 durability
+            });
+        }
+    }
+    private void applyHoeHitCost(LivingEntity attacker) {
+        ItemStack mainHandItem = attacker.getHeldItemMainhand();  // Get the item in the attacker's main hand
+
+        if (mainHandItem.getItem() instanceof Hoe) {
+            Hoe hoe = (Hoe) mainHandItem.getItem();
+
+            int damage = (int) (hoe.durabilityMultiplier);
+            mainHandItem.damageItem(damage, attacker, (e) -> {
+                e.sendBreakAnimation(EquipmentSlotType.MAINHAND);
             });
         }
     }
